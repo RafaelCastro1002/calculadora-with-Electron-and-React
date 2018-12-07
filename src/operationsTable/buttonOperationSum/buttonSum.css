@@ -1,0 +1,20 @@
+.positionButton{
+    position: absolute;
+    bottom: 2%;
+    background: rgb(206, 206, 206);
+    right: 2%;
+
+    border: none;
+
+    padding: 5%;
+}
+
+button:hover{
+    background: rgb(214, 214, 214);
+}
+button:focus{
+    border: none;
+}
+button:active{
+    font-size: 15px;
+}
