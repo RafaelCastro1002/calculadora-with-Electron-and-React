@@ -13,15 +13,7 @@ let mainWindow;
 
 function createWindow() {
     // Create the browser window.
-    mainWindow = new BrowserWindow({titleBarStyle: 'hidden',
-     width: 1281,
-     height: 800,
-     minWidth: 1281,
-     minHeight: 800,
-     backgroundColor: '#312450',
-     show: false,
-     icon: path.join(__dirname, 'public/calculadora-logo.svg')
- });
+    mainWindow = new BrowserWindow({width: 800, height: 600});
 
     // and load the index.html of the app.
     const startUrl = process.env.ELECTRON_START_URL || url.format({
