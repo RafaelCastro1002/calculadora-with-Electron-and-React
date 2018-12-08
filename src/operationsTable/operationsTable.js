@@ -13,6 +13,11 @@ class operationsTable extends Component{
         this.completeOnInput = this.completeOnInput.bind(this);
         this.setValueButton = this.setValueButton.bind(this);
         this.handleChange = this.handleChange.bind(this);
+        this.handleContainer = this.handleContainer.bind(this);
+    }
+
+    componentWillMount(){
+        document.addEventListener("keydown", this.handleContainer, true);
     }
 
     completeOnInput(value){
@@ -30,13 +35,41 @@ class operationsTable extends Component{
         this.setState({value: e.target.value});
     }
 
-    handleContainer(e = Window.event){
-        alert(e.key);
+    handleContainer(e){
+        var keyPressed = e.key;
+        keyPressed = keyPressed.charCodeAt(0);
+        if(keyPressed === 44 || keyPressed === 49 || keyPressed === 50 || keyPressed === 51 || keyPressed === 52 || keyPressed === 53 || keyPressed === 54 || keyPressed === 55 || keyPressed === 56 || keyPressed === 57 || keyPressed === 48){
+            this.setState({value: this.state.value + (keyPressed - 48)});
+        }else{
+            if(keyPressed === 43 || keyPressed === 45 || keyPressed === 42 || keyPressed === 47){
+                var valueInput = this.state.value;
+                valueInput = valueInput.substr((valueInput.length - 1), (valueInput.length - 1));
+                alert(valueInput);
+                if(valueInput !== "."){
+                    keyPressed = String.fromCharCode(keyPressed);
+                    this.setState({value: this.state.value + " " + keyPressed + " "});
+                }
+            }else{ 
+                var bakcspace = e.key;
+                if(bakcspace === 'Backspace'){
+                    var stringValueInput = this.state.value;
+                    stringValueInput = stringValueInput.substr(0, (stringValueInput.length - 1));
+                    this.setState({value: stringValueInput});
+                }else{
+                    var keyPress = e.key
+                    var separationsDecimals = this.state.value.indexOf(" ");
+                    alert(separationsDecimals);
+                    if(keyPress === '.' && this.state.value.indexOf(" ") === -1){
+                        this.setState({value: this.state.value + '.'});
+                    }
+                }
+            }
+        }
     }
 
     render(){
         return(
-            <div onKeyDown={this.handleContainer} id="container">
+            <div id="container">
                 <InputCalculating handleChange={this.handleChange} value={this.state.value} />
                 <ButtonSum />
                 
