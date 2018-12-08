@@ -5,26 +5,54 @@ import NumberButton from './numberButtons/numberButtons';
 import './operationsTable.css';
 
 class operationsTable extends Component{
+    constructor(props){
+        super(props)
+        this.state = {
+            value: '',
+        }
+        this.completeOnInput = this.completeOnInput.bind(this);
+        this.setValueButton = this.setValueButton.bind(this);
+        this.handleChange = this.handleChange.bind(this);
+    }
+
+    completeOnInput(value){
+        console.log('parameter: ' + value);
+        this.setState({value: this.state.value + value});
+        console.log('state: ' + this.state.value);
+    }
+
+    setValueButton(e){
+        var number = e.target.value;
+        this.completeOnInput(number);
+    }
+
+    handleChange(e){
+        this.setState({value: e.target.value});
+    }
+
+    handleContainer(e = Window.event){
+        alert(e.key);
+    }
 
     render(){
         return(
-            <div id="container">
-                <InputCalculating />
+            <div onKeyDown={this.handleContainer} id="container">
+                <InputCalculating handleChange={this.handleChange} value={this.state.value} />
                 <ButtonSum />
                 
-                <NumberButton number="7" />
-                <NumberButton number="8" />
-                <NumberButton number="9" />
+                <NumberButton getNumber={this.setValueButton} number="7" />
+                <NumberButton getNumber={this.setValueButton} number="8" />
+                <NumberButton getNumber={this.setValueButton} number="9" />
                 <br />
-                <NumberButton number="4" />
-                <NumberButton number="5" />
-                <NumberButton number="6" />
+                <NumberButton getNumber={this.setValueButton} number="4" />
+                <NumberButton getNumber={this.setValueButton} number="5" />
+                <NumberButton getNumber={this.setValueButton} number="6" />
                 <br />
-                <NumberButton number="1" />
-                <NumberButton number="2" />
-                <NumberButton number="3" />
+                <NumberButton getNumber={this.setValueButton} number="1" />
+                <NumberButton getNumber={this.setValueButton} number="2" />
+                <NumberButton getNumber={this.setValueButton} number="3" />
                 <br />
-                <NumberButton number="0" />
+                <NumberButton getNumber={this.setValueButton} number="0" />
                 
             </div>
         )
