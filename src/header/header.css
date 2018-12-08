@@ -1,0 +1,9 @@
+.header{
+    color: rgba(255, 255, 255, 0.795);
+    text-align: center;
+    font-size: 150%;
+    font-weight: bold;
+    margin-top: -1%;
+    padding: 3% 0 3% 0;
+    background-image: linear-gradient(rgb(54, 53, 141), rgb(33, 24, 116));
+}
