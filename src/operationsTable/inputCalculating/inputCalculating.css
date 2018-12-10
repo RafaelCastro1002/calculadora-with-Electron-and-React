@@ -1,3 +1,13 @@
+@font-face {
+    font-family: 'digital-7';
+    src: url('../../../fonts/digital-7.ttf');
+    src: url('../../../fonts/digital-7\ \(italic\).ttf'),
+        url('../../../fonts/digital-7\ \(mono\ italic\).ttf'),
+        url('../../../fonts/digital-7\ \(mono\).ttf');
+    font-weight: normal;
+    font-style: normal;
+}
+
 #inputCalculating{
     width: 96%;
     height: 40px;
@@ -5,6 +15,11 @@
     font-size: 30px;
     margin-top: 2%;
     text-align: right;
+    font-family: "digital-7";
+    font-size: 300%;
+    border-radius: 10%;
+    background-color: rgb(231, 231, 231);
+    color: rgba(0, 0, 0, 0.911); 
 }
 
 input:focus{

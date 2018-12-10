@@ -4,7 +4,7 @@
     background: rgb(206, 206, 206);
     right: 2%;
 
-    border: none;
+    border: none !important;
 
     padding: 5%;
 }
@@ -16,5 +16,8 @@ button:focus{
     border: none;
 }
 button:active{
+    font-style: initial !important;
     font-size: 15px;
+    text-decoration: none !important;
+    border: none !important;
 }

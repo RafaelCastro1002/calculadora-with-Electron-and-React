@@ -1,20 +1,21 @@
-.styleButtonNumber{
+
+
+button{
     padding: 5% 10% 5% 10%;
     margin: 1%;
 
     background: rgb(206, 206, 206);
-
+    box-shadow: none;
     border: none;
-    text-decoration: none;
-    text-align: left;
 }
 
 button:hover{
     background: rgb(214, 214, 214);
 }
 button:focus{
-    border: none;
+    outline: none;
 }
 button:active{
     font-size: 15px;
+    border: 1px solid red;
 }
