@@ -6,7 +6,7 @@ class inputCalculating extends Component{
     render(){
         return(
             <div>
-                <input onChange={this.props.handleChange} value={this.props.value} id="inputCalculating" type="text" />
+                <input disabled onChange={this.props.handleChange} value={this.props.value} id="inputCalculating" type="text" />
             </div>
         )
     }

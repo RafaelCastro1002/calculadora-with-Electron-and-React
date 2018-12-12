@@ -21,9 +21,13 @@ class operationsTable extends Component{
     }
 
     completeOnInput(value){
-        console.log('parameter: ' + value);
-        this.setState({value: this.state.value + value});
-        console.log('state: ' + this.state.value);
+        if(value === 'x'){
+            var newValue = String.fromCharCode(value)
+            this.setState({value: this.state.value + newValue});
+        }else{
+            this.setState({value: this.state.value + value});
+        }
+            
     }
 
     realizeCalculating(numberA, numberB, operational){
@@ -44,34 +48,41 @@ class operationsTable extends Component{
     PressEnterToCalculate(e){
         if(e.key === 'Enter'){
             var valueInputTokens = this.state.value.split(' ');
-            
-            var operationsOrderBy = ['*', '/', '+', '-'];
-            for(var operationsPosition = 0; operationsPosition < 4; operationsPosition++){
-                for(var i = 1; i < valueInputTokens.length; ){
-                    if(valueInputTokens[i] === operationsOrderBy[operationsPosition]){
-                        var floatValueFirst = parseFloat(valueInputTokens[i - 1]);
-                        var floatValueSecond = parseFloat(valueInputTokens[i + 1]);
-                        valueInputTokens[i - 1] = this.realizeCalculating(floatValueFirst, floatValueSecond, operationsOrderBy[operationsPosition]);                 
-                        valueInputTokens[i] = undefined;
-                        valueInputTokens[i + 1] = undefined;
-                        for(var position = i + 2; position < valueInputTokens.length; position++){
-                            valueInputTokens[position - 2] = valueInputTokens[position];
-                            valueInputTokens[position] = undefined;
+            if(valueInputTokens[valueInputTokens.length - 1] !== ''){
+                var operationsOrderBy = ['*', '/', '+', '-'];
+                for(var operationsPosition = 0; operationsPosition < 4; operationsPosition++){
+                    for(var i = 1; i < valueInputTokens.length; ){
+                        if(valueInputTokens[i] === operationsOrderBy[operationsPosition]){
+                            var floatValueFirst = parseFloat(valueInputTokens[i - 1]);
+                            var floatValueSecond = parseFloat(valueInputTokens[i + 1]);
+                            valueInputTokens[i - 1] = this.realizeCalculating(floatValueFirst, floatValueSecond, operationsOrderBy[operationsPosition]);                 
+                            valueInputTokens[i] = undefined;
+                            valueInputTokens[i + 1] = undefined;
+                            for(var position = i + 2; position < valueInputTokens.length; position++){
+                                valueInputTokens[position - 2] = valueInputTokens[position];
+                                valueInputTokens[position] = undefined;
+                            }
+                        }else{
+                            i += 2;
                         }
-                    }else{
-                        i += 2;
                     }
                 }
+                return "" + valueInputTokens[0];
             }
-            return "" + valueInputTokens[0];
         }
         return null;
     }
 
     setValueButton(e){
-        e.preventDefault();
         var number = e.target.value;
         this.completeOnInput(number);
+    }
+
+    setActiveButton(activeButton){
+        document.querySelector(activeButton).className = 'active';
+        setTimeout(function(){ 
+            document.querySelector('button.active').className = '';
+        }, 180);
     }
 
     handleChange(e){
@@ -102,7 +113,11 @@ class operationsTable extends Component{
         if(bakcspace === 'Backspace'){
             var stringValueInput = this.state.value;
             if(stringValueInput.length !== 1){
-                stringValueInput = stringValueInput.substr(0, (stringValueInput.length - 1));
+                if(stringValueInput.substr((stringValueInput.length - 1), (stringValueInput.length - 1)) === ' '){
+                    stringValueInput = stringValueInput.substr(0, (stringValueInput.length - 3));
+                }else{
+                    stringValueInput = stringValueInput.substr(0, (stringValueInput.length - 1));
+                }
             }else{
                 if(stringValueInput.length === 1){
                     stringValueInput = '';
@@ -124,6 +139,21 @@ class operationsTable extends Component{
 
     handleContainer(e){
         var keyPressed = e.key;
+        var idFirst = `#active${keyPressed}`;
+        try{
+            if(document.querySelector(idFirst)){
+                this.setActiveButton(idFirst);
+            }
+        }catch(e){
+            var idSecond = `[id="active${keyPressed}"]`;
+            try{
+                if(document.querySelector(idSecond)){
+                    this.setActiveButton(idSecond);
+                }
+            }catch(error){
+                alert('erro: ' + error)
+            }
+        }
         keyPressed = keyPressed.charCodeAt(0);
         if(e.key !== ","){
             if(this.getKeyNumber(keyPressed)){
@@ -148,22 +178,60 @@ class operationsTable extends Component{
         return(
             <div id="container">
                 <InputCalculating handleChange={this.handleChange} value={this.state.value} />
-                <ButtonSum />
                 
-                <NumberButton getNumber={this.setValueButton} number="7" />
-                <NumberButton getNumber={this.setValueButton} number="8" />
-                <NumberButton getNumber={this.setValueButton} number="9" />
-                <br />
-                <NumberButton getNumber={this.setValueButton} number="4" />
-                <NumberButton getNumber={this.setValueButton} number="5" />
-                <NumberButton getNumber={this.setValueButton} number="6" />
-                <br />
-                <NumberButton getNumber={this.setValueButton} number="1" />
-                <NumberButton getNumber={this.setValueButton} number="2" />
-                <NumberButton getNumber={this.setValueButton} number="3" />
-                <br />
-                <NumberButton getNumber={this.setValueButton} number="0" />
-                
+                <div>
+                    <span>
+                        <NumberButton getNumber={this.setValueButton} number="7" />
+                    </span> 
+                    <span>
+                        <NumberButton getNumber={this.setValueButton} number="8" />
+                    </span> 
+                    <span>
+                        <NumberButton getNumber={this.setValueButton} number="9" />
+                    </span>
+                    <span>
+                        <NumberButton getNumber={this.setValueButton} number="/" />
+                    </span>                     
+                        <br />
+                    <span>
+                        <NumberButton getNumber={this.setValueButton} number="4" />
+                    </span> 
+                    <span>
+                        <NumberButton getNumber={this.setValueButton} number="5" />
+                    </span>  
+                    <span>
+                        <NumberButton getNumber={this.setValueButton} number="6" />
+                    </span> 
+                    <span>
+                        <NumberButton getNumber={this.setValueButton} number="x" />
+                    </span> 
+                        <br />
+                    <span>
+                        <NumberButton getNumber={this.setValueButton} number="1" />
+                    </span> 
+                    <span>
+                        <NumberButton getNumber={this.setValueButton} number="2" />
+                    </span> 
+                    <span>
+                        <NumberButton getNumber={this.setValueButton} number="3" />
+                    </span> 
+                    <span>
+                        <NumberButton getNumber={this.setValueButton} number="-" />
+                    </span> 
+                        <br />
+                    <span>
+                        <NumberButton getNumber={this.setValueButton} number="." />
+                    </span> 
+                    <span>
+                        <NumberButton getNumber={this.setValueButton} number="0" />
+                    </span> 
+                    <span>
+                        <NumberButton getNumber={this.setValueButton} number="+" />
+                    </span> 
+                    <span>
+                        <NumberButton getNumber={this.setValueButton} number="=" />
+                    </span> 
+                </div>
             </div>
         )
     }

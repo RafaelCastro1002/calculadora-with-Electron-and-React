@@ -1,13 +1,26 @@
 #container{
     text-align: center;
     background: white;
-    width: 95%;
+    width: 100%;
     position: absolute;
     left: 50%;
-    margin-left: -47.5%;
-    margin-top: -5%;
+    margin-left: -50%;
+    margin-top: -7%;
 
     height: 85%;
+}
+
+.active{
+    padding-top: 5%;
+    padding-bottom: 5%;
+    width: 17%;
+    margin: 0.2%;
+
+    box-shadow: none;
+    border: none;
+    background: rgb(214, 214, 214);
+    outline: none;
+    font-size: 15px;
 }
 
 
