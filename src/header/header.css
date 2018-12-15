@@ -1,8 +1,12 @@
+@import url('https://fonts.googleapis.com/css?family=Libre+Baskerville');
 .header{
+    font-family: 'Libre Baskerville', serif;
+    
+
     color: rgb(255, 255, 255);
     text-align: center;
     font-size: 150%;
-    font-weight: bold;
+    
     margin-top: -1%;
     padding: 3% 0 3% 0;
     background-image: linear-gradient(rgb(104, 110, 170), rgb(31, 27, 63));

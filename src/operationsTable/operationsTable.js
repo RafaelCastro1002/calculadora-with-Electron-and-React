@@ -48,26 +48,32 @@ class operationsTable extends Component{
     PressEnterToCalculate(e){
         if(e.key === 'Enter'){
             var valueInputTokens = this.state.value.split(' ');
-            if(valueInputTokens[valueInputTokens.length - 1] !== ''){
-                var operationsOrderBy = ['*', '/', '+', '-'];
-                for(var operationsPosition = 0; operationsPosition < 4; operationsPosition++){
-                    for(var i = 1; i < valueInputTokens.length; ){
-                        if(valueInputTokens[i] === operationsOrderBy[operationsPosition]){
-                            var floatValueFirst = parseFloat(valueInputTokens[i - 1]);
-                            var floatValueSecond = parseFloat(valueInputTokens[i + 1]);
-                            valueInputTokens[i - 1] = this.realizeCalculating(floatValueFirst, floatValueSecond, operationsOrderBy[operationsPosition]);                 
-                            valueInputTokens[i] = undefined;
-                            valueInputTokens[i + 1] = undefined;
-                            for(var position = i + 2; position < valueInputTokens.length; position++){
-                                valueInputTokens[position - 2] = valueInputTokens[position];
-                                valueInputTokens[position] = undefined;
+            var lastNumber = valueInputTokens[valueInputTokens.length - 1];
+            var splitLastNumber = lastNumber.split('.')
+            if(splitLastNumber.length === 2 && splitLastNumber[splitLastNumber.length - 1] === ''){
+                return null
+            }else{
+                if(valueInputTokens[valueInputTokens.length - 1] !== ''){
+                    var operationsOrderBy = ['*', '/', '+', '-'];
+                    for(var operationsPosition = 0; operationsPosition < 4; operationsPosition++){
+                        for(var i = 1; i < valueInputTokens.length; ){
+                            if(valueInputTokens[i] === operationsOrderBy[operationsPosition]){
+                                var floatValueFirst = parseFloat(valueInputTokens[i - 1]);
+                                var floatValueSecond = parseFloat(valueInputTokens[i + 1]);
+                                valueInputTokens[i - 1] = this.realizeCalculating(floatValueFirst, floatValueSecond, operationsOrderBy[operationsPosition]);                 
+                                valueInputTokens[i] = undefined;
+                                valueInputTokens[i + 1] = undefined;
+                                for(var position = i + 2; position < valueInputTokens.length; position++){
+                                    valueInputTokens[position - 2] = valueInputTokens[position];
+                                    valueInputTokens[position] = undefined;
+                                }
+                            }else{
+                                i += 2;
                             }
-                        }else{
-                            i += 2;
                         }
                     }
+                    return "" + valueInputTokens[0];
                 }
-                return "" + valueInputTokens[0];
             }
         }
         return null;
@@ -75,7 +81,16 @@ class operationsTable extends Component{
 
     setValueButton(e){
         var number = e.target.value;
-        this.completeOnInput(number);
+        if(number === '='){
+            number = 'Enter';
+        }
+        if(number === 'x'){
+            number = '*';
+        }
+        const value = {
+            "key": number
+        }
+        this.handleContainer(value);
     }
 
     setActiveButton(activeButton){
@@ -128,18 +143,41 @@ class operationsTable extends Component{
         return undefined;
     }
 
+    aceptedSeparationDecimal(keyPress){
+        var valuesOnInput = this.state.value.split(' ');
+        var lastNumberTyped = valuesOnInput[valuesOnInput.length - 1]; 
+        var splitNumberOfSeparationsDecimal = lastNumberTyped.split('.');
+        if(keyPress === '.' && this.state.value.substr((this.state.value.length - 1), (this.state.value.length - 1)) !== '.' && this.state.value.substr((this.state.value.length - 1), (this.state.value.length - 1)) !== ' ' && splitNumberOfSeparationsDecimal.length < 2){
+            return(this.state.value + '.');
+        }else{
+            return null
+        }
+    }
+
     getSeparationsDecimals(e){
         var keyPress = e.key
         var separationsDecimals = this.state.value.indexOf(" ");
-        if(keyPress === '.' && this.state.value.indexOf(" ") === -1){
-            return(this.state.value + '.');
+        if(this.aceptedSeparationDecimal(keyPress) !== null){
+            return this.aceptedSeparationDecimal(keyPress);
+        }else{
+            return null;
         }
-        return null;
+    }
+    
+    getKeyClean(e){ 
+        var keyPressed = e.key;
+        keyPressed = keyPressed.toLowerCase();
+        if(keyPressed === 'c'){
+            this.setState({value: ''});
+        }
     }
 
     handleContainer(e){
         var keyPressed = e.key;
         var idFirst = `#active${keyPressed}`;
+        if(idFirst === '#active*'){
+            idFirst = '#activex';
+        }
         try{
             if(document.querySelector(idFirst)){
                 this.setActiveButton(idFirst);
@@ -171,6 +209,9 @@ class operationsTable extends Component{
             if(this.PressEnterToCalculate(e)){
                 this.setState({value: this.PressEnterToCalculate(e)});
             }
+            if(this.getKeyClean(e)){
+                alert('to aqui!')
+            }
         }
     }
 
@@ -180,6 +221,16 @@ class operationsTable extends Component{
                 <InputCalculating handleChange={this.handleChange} value={this.state.value} />
                 
                 <div>
+                    <span>
+                        <button className="styleButtonNumber" id={'active' + 'Backspace'} value='Backspace' onClick={this.setValueButton}><i class="fas fa-backspace"></i></button>
+                    </span>
+                    <span>
+                        <NumberButton getNumber={this.setValueButton} number="C" />
+                    </span>
+                    <span>
+                        <NumberButton getNumber={this.setValueButton} number="x&sup2;" />
+                    </span>
+                    <br />
                     <span>
                         <NumberButton getNumber={this.setValueButton} number="7" />
                     </span> 
