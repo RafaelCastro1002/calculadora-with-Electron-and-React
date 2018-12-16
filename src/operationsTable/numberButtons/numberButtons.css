@@ -3,7 +3,7 @@
 button{
     padding-top: 5%;
     padding-bottom: 5%;
-    width: 22%;
+    width: 24.5%;
     margin: 0.2%;
 
     background: rgb(206, 206, 206);
@@ -12,12 +12,15 @@ button{
 }
 
 button:hover{
-    background: rgb(214, 214, 214);
+    background: rgb(235, 232, 232);
 }
 button:focus{
     outline: none;
-}
-button:active{
-    font-size: 15px;
-    border: 1px solid red;
+    padding-top: 5%;
+    padding-bottom: 5%;
+    width: 24.5%;
+    margin: 0.2%;
+    font-size: 13px;
+    box-shadow: none;
+    border: none;
 }

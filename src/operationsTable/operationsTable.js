@@ -230,6 +230,9 @@ class operationsTable extends Component{
                     <span>
                         <NumberButton getNumber={this.setValueButton} number="x&sup2;" />
                     </span>
+                    <span>
+                        <NumberButton getNumber={this.setValueButton} number="&radic;" />
+                    </span>
                     <br />
                     <span>
                         <NumberButton getNumber={this.setValueButton} number="7" />

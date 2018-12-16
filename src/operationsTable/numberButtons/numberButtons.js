@@ -5,7 +5,7 @@ class numberButtons extends Component{
 
     render(){
         return(
-            <button id={'active' + this.props.number} onClick={this.props.getNumber} value={this.props.number} className="styleButtonNumber">{this.props.number}</button>
+            <button id={'active' + this.props.number} onClick={this.props.getNumber} value={this.props.number}>{this.props.number}</button>
         )
     }
 }
